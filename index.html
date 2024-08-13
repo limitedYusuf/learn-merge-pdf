@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belajar Merge PDF</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  </head>
+
+  <body class="bg-gray-900 text-white">
+    <div id="app" class="container mx-auto p-4">
+      <div class="max-w-xl mx-auto bg-gray-800 p-6 rounded-lg shadow-md">
+        <h1 class="text-2xl font-bold mb-4">🔥🔥 Ayo bergabung, PDF kuase 5.. 🔥🔥</h1>
+
+        <draggable v-model="fileInputs" @end="onOrderChange" class="space-y-4">
+          <div v-for="(fileInput, index) in fileInputs" :key="index" class="flex items-center">
+            <div class="relative w-full">
+              <input type="file" accept=".pdf" @change="onFileChange($event, index)" class="hidden"
+                :id="'file-input-' + index" />
+              <label :for="'file-input-' + index"
+                class="bg-gray-700 text-white p-2 rounded-lg flex-1 mr-2 cursor-pointer flex items-center justify-between">
+                <span>{{ fileInput.name || 'Pilih file PDF...' }}</span>
+                <span class="text-blue-400">Meluncur</span>
+              </label>
+            </div>
+            <button @click="removeFileInput(index)" class="text-red-500 font-bold ml-2">X</button>
+          </div>
+        </draggable>
+
+        <div class="mt-6">
+          <button @click="addFileInput"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mb-4">Tambah List</button>
+        </div>
+
+        <button @click="mergePDFs" :disabled="isMerging"
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-full">
+          {{ isMerging ? 'Proses...' : 'Proses Gabung' }}
+        </button>
+
+        <div v-if="mergedPDF" class="mt-6 bg-gray-700 p-4 rounded-lg">
+          <a :href="mergedPDF" download="merged.pdf"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mb-4 inline-block">Download
+            File Gabungan</a>
+          <iframe :src="mergedPDF" class="w-full h-screen mt-4" frameborder="0"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuedraggable@2.24.3/dist/vuedraggable.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-toasted@1.1.28/dist/vue-toasted.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+
+</html>
