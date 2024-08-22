@@ -34,6 +34,39 @@
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mb-4">Tambah List</button>
         </div>
 
+        <div class="mt-6 bg-gray-700 p-4 rounded-lg">
+          <label class="inline-flex items-center mr-4">
+            <input type="radio" v-model="clearanceType" value="in" class="form-radio text-blue-500">
+            <span class="ml-2">Clearance In</span>
+          </label>
+          <label class="inline-flex items-center">
+            <input type="radio" v-model="clearanceType" value="out" class="form-radio text-blue-500">
+            <span class="ml-2">Clearance Out</span>
+          </label>
+        </div>
+
+        <div v-if="clearanceType" class="mt-6 bg-gray-700 p-4 rounded-lg">
+          <h2 class="text-xl font-bold mb-4">
+            {{ clearanceType === 'in' ? 'Clearance In Documents' : 'Clearance Out Documents' }}
+          </h2>
+          <table class="min-w-full bg-gray-800 rounded-lg">
+            <thead>
+              <tr>
+                <th class="py-2 px-4 bg-gray-700 text-left">ID Document</th>
+                <th class="py-2 px-4 bg-gray-700 text-left">Nama Dokument</th>
+                <th class="py-2 px-4 bg-gray-700 text-left">File</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(doc, index) in filteredDocumentList" :key="doc.id">
+                <td class="py-2 px-4">{{ doc.id }}</td>
+                <td class="py-2 px-4">{{ doc.name }}</td>
+                <td class="py-2 px-4">file_dummy/{{ index + 1 }}.pdf</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
         <button @click="mergePDFs" :disabled="isMerging"
           class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-full">
           {{ isMerging ? 'Proses...' : 'Proses Gabung' }}
